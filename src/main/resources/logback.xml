@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<conversionRule conversionWord="highlightex" converterClass="com.vitaxa.jasteambot.service.log.layout.HighLightingLevelConverter" />
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<withJansi>true</withJansi>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %highlightex(%-5level) %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${user.dir}/log/JaSteamBot.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %msg%n</Pattern>
+		</encoder>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${user.dir}/log/archived/JaSteamBot.%d{yyyy-MM-dd}.%i.log
+			</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+					class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>15MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+	</appender>
+
+	<logger name="com.vitaxa.jasteambot" level="INFO" additivity="false">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
+	</logger>
+
+	<!-- By default, the level of the root level is set to DEBUG -->
+	<root level="DEBUG">
+		<appender-ref ref="STDOUT" />
+	</root>
+</configuration>
